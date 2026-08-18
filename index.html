@@ -116,7 +116,10 @@ function openPayment(){
     ref: 'KINGADS_' + Math.floor(Math.random() * 1000000000),
 
     callback: function(response){
+
     localStorage.setItem("kingAdsRegistered", "true");
+
+    checkRegistration();
 
     alert(
         "Payment successful!\n\nReference: " +
