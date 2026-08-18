@@ -133,6 +133,39 @@ function openPayment(){
   handler.openIframe();
 }
 </script>
+<script>
+function checkRegistration() {
+  const registered = localStorage.getItem("kingAdsRegistered");
 
+  if (registered === "true") {
+    const lock = document.querySelector(".lock");
+
+    if (lock) {
+      lock.innerHTML = `
+        <h2>👑 Welcome to KING ADS</h2>
+        <p>Your registration is active. You can now access KING ADS advertising features.</p>
+
+        <button class="btn gold" onclick="postAd()">
+          Post an Ad
+        </button>
+
+        <button class="btn outline" onclick="exploreAds()">
+          Explore Ads
+        </button>
+      `;
+    }
+  }
+}
+
+function postAd() {
+  alert("Post an Ad feature is now available.");
+}
+
+function exploreAds() {
+  alert("Explore Ads feature is now available.");
+}
+
+checkRegistration();
+</script>
 </body>
 </html>
