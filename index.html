@@ -160,14 +160,99 @@ function checkRegistration() {
 }
 
 function postAd() {
-  alert("Post an Ad feature is now available!");
+  const lock = document.querySelector(".lock");
+
+  if (!lock) return;
+
+  lock.innerHTML = `
+    <h2>📢 Post an Ad</h2>
+    <p>Create your advertisement on KING ADS.</p>
+
+    <form onsubmit="submitAd(event)" class="ad-form">
+
+      <input
+        type="text"
+        id="adTitle"
+        placeholder="Ad Title"
+        required
+      >
+
+      <select id="adCategory" required>
+        <option value="">Select Category</option>
+        <option>Vehicles</option>
+        <option>Real Estate</option>
+        <option>Electronics</option>
+        <option>Fashion</option>
+        <option>Services</option>
+        <option>Jobs</option>
+        <option>Other</option>
+      </select>
+
+      <textarea
+        id="adDescription"
+        placeholder="Describe your product or service"
+        required
+      ></textarea>
+
+      <input
+        type="number"
+        id="adPrice"
+        placeholder="Price (NGN)"
+        required
+      >
+
+      <input
+        type="text"
+        id="adLocation"
+        placeholder="Location"
+        required
+      >
+
+      <input
+        type="tel"
+        id="adPhone"
+        placeholder="Phone Number"
+        required
+      >
+
+      <input
+        type="url"
+        id="adImage"
+        placeholder="Image URL (optional)"
+      >
+
+      <button type="submit" class="btn gold">
+        🚀 Publish Ad
+      </button>
+
+      <button
+        type="button"
+        class="btn outline"
+        onclick="checkRegistration()"
+      >
+        ← Back
+      </button>
+
+    </form>
+  `;
 }
 
-function exploreAds() {
-  alert("Explore Ads feature is now available!");
-}
+function submitAd(event) {
+  event.preventDefault();
 
-checkRegistration();
-</script>
-</body>
-</html>
+  const ad = {
+    title: document.getElementById("adTitle").value,
+    category: document.getElementById("adCategory").value,
+    description: document.getElementById("adDescription").value,
+    price: document.getElementById("adPrice").value,
+    location: document.getElementById("adLocation").value,
+    phone: document.getElementById("adPhone").value,
+    image: document.getElementById("adImage").value
+  };
+
+  localStorage.setItem("kingAdsLatestAd", JSON.stringify(ad));
+
+  alert("✅ Your advertisement has been published!");
+
+  checkRegistration();
+}
