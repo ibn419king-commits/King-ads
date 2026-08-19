@@ -136,123 +136,183 @@ function openPayment(){
   handler.openIframe();
 }
 </script>
-<script>
+  <script>
 function checkRegistration() {
-  const registered = localStorage.getItem("kingAdsRegistered");
-  const lock = document.querySelector(".lock");
+    const registered = localStorage.getItem("kingAdsRegistered");
+    const lock = document.querySelector(".lock");
 
-  if (!lock) return;
+    if (!lock) return;
 
-  if (registered === "true") {
-    lock.innerHTML = `
-      <h2>👑 Welcome to KING ADS</h2>
-      <p>Your registration is active. You can now access KING ADS advertising features.</p>
+    if (registered === "true") {
+        lock.innerHTML = `
+            <h2>👑 Welcome to KING ADS</h2>
+            <p>Your registration is active. You can now access KING ADS advertising features.</p>
 
-      <button class="btn gold" onclick="postAd()">
-        Post an Ad
-      </button>
+            <button class="btn gold" onclick="postAd()">
+                📢 Post an Ad
+            </button>
 
-      <button class="btn outline" onclick="exploreAds()">
-        Explore Ads
-      </button>
-    `;
-  }
+            <button class="btn outline" onclick="exploreAds()">
+                🔎 Explore Ads
+            </button>
+        `;
+    }
 }
 
 function postAd() {
-  const lock = document.querySelector(".lock");
+    const lock = document.querySelector(".lock");
 
-  if (!lock) return;
+    if (!lock) return;
 
-  lock.innerHTML = `
-    <h2>📢 Post an Ad</h2>
-    <p>Create your advertisement on KING ADS.</p>
+    lock.innerHTML = `
+        <h2>📢 Post an Ad</h2>
+        <p>Create your advertisement on KING ADS.</p>
 
-    <form onsubmit="submitAd(event)" class="ad-form">
+        <form onsubmit="submitAd(event)">
 
-      <input
-        type="text"
-        id="adTitle"
-        placeholder="Ad Title"
-        required
-      >
+            <input
+                type="text"
+                id="adTitle"
+                placeholder="Ad Title"
+                required
+            >
 
-      <select id="adCategory" required>
-        <option value="">Select Category</option>
-        <option>Vehicles</option>
-        <option>Real Estate</option>
-        <option>Electronics</option>
-        <option>Fashion</option>
-        <option>Services</option>
-        <option>Jobs</option>
-        <option>Other</option>
-      </select>
+            <select id="adCategory" required>
+                <option value="">Select Category</option>
+                <option>Vehicles</option>
+                <option>Real Estate</option>
+                <option>Electronics</option>
+                <option>Fashion</option>
+                <option>Services</option>
+                <option>Jobs</option>
+                <option>Other</option>
+            </select>
 
-      <textarea
-        id="adDescription"
-        placeholder="Describe your product or service"
-        required
-      ></textarea>
+            <textarea
+                id="adDescription"
+                placeholder="Describe your product or service"
+                required
+            ></textarea>
 
-      <input
-        type="number"
-        id="adPrice"
-        placeholder="Price (NGN)"
-        required
-      >
+            <input
+                type="number"
+                id="adPrice"
+                placeholder="Price"
+                required
+            >
 
-      <input
-        type="text"
-        id="adLocation"
-        placeholder="Location"
-        required
-      >
+            <input
+                type="text"
+                id="adLocation"
+                placeholder="Location"
+                required
+            >
 
-      <input
-        type="tel"
-        id="adPhone"
-        placeholder="Phone Number"
-        required
-      >
+            <input
+                type="tel"
+                id="adPhone"
+                placeholder="Phone Number"
+                required
+            >
 
-      <input
-        type="url"
-        id="adImage"
-        placeholder="Image URL (optional)"
-      >
+            <input
+                type="url"
+                id="adImage"
+                placeholder="Image URL"
+            >
 
-      <button type="submit" class="btn gold">
-        🚀 Publish Ad
-      </button>
+            <button type="submit" class="btn gold">
+                🚀 Publish Ad
+            </button>
 
-      <button
-        type="button"
-        class="btn outline"
-        onclick="checkRegistration()"
-      >
-        ← Back
-      </button>
+            <button
+                type="button"
+                class="btn outline"
+                onclick="checkRegistration()"
+            >
+                ← Back
+            </button>
 
-    </form>
-  `;
+        </form>
+    `;
 }
 
 function submitAd(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  const ad = {
-    title: document.getElementById("adTitle").value,
-    category: document.getElementById("adCategory").value,
-    description: document.getElementById("adDescription").value,
-    price: document.getElementById("adPrice").value,
-    location: document.getElementById("adLocation").value,
-    phone: document.getElementById("adPhone").value,
-    image: document.getElementById("adImage").value
-  };
+    const ad = {
+        title: document.getElementById("adTitle").value,
+        category: document.getElementById("adCategory").value,
+        description: document.getElementById("adDescription").value,
+        price: document.getElementById("adPrice").value,
+        location: document.getElementById("adLocation").value,
+        phone: document.getElementById("adPhone").value,
+        image: document.getElementById("adImage").value
+    };
 
-  localStorage.setItem("kingAdsLatestAd", JSON.stringify(ad));
+    localStorage.setItem(
+        "kingAdsLatestAd",
+        JSON.stringify(ad)
+    );
 
-  alert("✅ Your advertisement has been published!");
+    alert("✅ Your advertisement has been published!");
 
-  checkRegistration();
+    checkRegistration();
 }
+
+function exploreAds() {
+    const lock = document.querySelector(".lock");
+
+    if (!lock) return;
+
+    const savedAd = localStorage.getItem("kingAdsLatestAd");
+
+    if (!savedAd) {
+        lock.innerHTML = `
+            <h2>🔎 Explore Ads</h2>
+            <p>No advertisements have been published yet.</p>
+
+            <button
+                class="btn outline"
+                onclick="checkRegistration()"
+            >
+                ← Back
+            </button>
+        `;
+        return;
+    }
+
+    const ad = JSON.parse(savedAd);
+
+    lock.innerHTML = `
+        <h2>🔎 Explore Ads</h2>
+
+        <div class="ad-card">
+            <h3>${ad.title}</h3>
+            <p><strong>Category:</strong> ${ad.category}</p>
+            <p>${ad.description}</p>
+            <p><strong>Price:</strong> ₦${ad.price}</p>
+            <p><strong>Location:</strong> ${ad.location}</p>
+            <p><strong>Phone:</strong> ${ad.phone}</p>
+
+            ${
+                ad.image
+                ? `<img src="${ad.image}" alt="${ad.title}" style="max-width:100%;">`
+                : ""
+            }
+        </div>
+
+        <button
+            class="btn outline"
+            onclick="checkRegistration()"
+        >
+            ← Back
+        </button>
+    `;
+}
+
+checkRegistration();
+</script>
+
+</body>
+</html>
